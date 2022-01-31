@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SmartParkingSystem.DataBase\SmartParkingSystem.DataBase.csproj" />
+    <ProjectReference Include="..\SmartParkingSystem.Entity\SmartParkingSystem.Entity.csproj" />
+  </ItemGroup>
+
+</Project>

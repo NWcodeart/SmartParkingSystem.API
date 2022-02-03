@@ -18,7 +18,7 @@ namespace SmartParkingSystem.DataBase.model
         }
 
         //models of the  database
-        public DbSet<AddParking> companyParkings { get; set; }
+        public DbSet<CompanyParking> companyParkings { get; set; }
         public DbSet<ParkingSpace> parkingSpaces { get; set; }
 
 
@@ -27,7 +27,7 @@ namespace SmartParkingSystem.DataBase.model
         {
             //every company parking has Multiple parking spaces
             modelBuilder.Entity<ParkingSpace>()
-                .HasOne<AddParking>(p => p.companyParking)
+                .HasOne<CompanyParking>(p => p.companyParking)
                 .WithMany(p => p.ParkingList)
                 .HasForeignKey(f => f.ParkingId);
         }

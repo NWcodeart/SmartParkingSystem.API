@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace SmartParkingSystem.Entity
 {
-    class parking
+    public class AddSpaceDto
     {
+        public string ParkingNumber { get; set; }
+
+        public int ParkingId { get; set; }
     }
 }

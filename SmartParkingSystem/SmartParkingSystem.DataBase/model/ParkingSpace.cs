@@ -19,10 +19,10 @@ namespace SmartParkingSystem.DataBase.model
         [Required]
         [ForeignKey("Id")]
         public int ParkingId { get; set; }
-        public AddParking companyParking { get; set; }
+        public CompanyParking companyParking { get; set; }
 
 #nullable disable
-        public bool IsVacant { get; set; }
+        public bool IsVacant = true;
 
         #nullable enable
         public string? CarNumber { get; set; }

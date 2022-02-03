@@ -2,9 +2,9 @@
 
 namespace SmartParkingSystem.Entity
 {
-    public class AddParking
+    public class AddParkingDto
     {
-        public int Id { get; set; }
+
         public String Name { get; set; }
     }
 }

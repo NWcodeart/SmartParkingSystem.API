@@ -11,5 +11,7 @@ namespace SmartParkingSystem.Entity
         public string ParkingNumber { get; set; }
 
         public int ParkingId { get; set; }
+
+        public bool IsVacant = true;
     }
 }

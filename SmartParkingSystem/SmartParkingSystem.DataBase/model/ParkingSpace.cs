@@ -21,8 +21,8 @@ namespace SmartParkingSystem.DataBase.model
         public int ParkingId { get; set; }
         public CompanyParking companyParking { get; set; }
 
-#nullable disable
-        public bool IsVacant = true;
+        #nullable disable
+        public bool IsVacant { get; set; }
 
         #nullable enable
         public string? CarNumber { get; set; }

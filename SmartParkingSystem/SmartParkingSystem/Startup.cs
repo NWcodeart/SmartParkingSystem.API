@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SmartParkingSystem.ApplicationLayer;
+using SmartParkingSystem.BusinessLayer;
 using SmartParkingSystem.DataBase;
 using SmartParkingSystem.DataBase.model;
 using System;
@@ -36,12 +38,13 @@ namespace SmartParkingSystem
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartParkingSystem", Version = "v1" });
             });
-
             services.AddDbContext<ParkingContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DbConnection"));
 
             });
+            services.AddScoped<IParking, Parking>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

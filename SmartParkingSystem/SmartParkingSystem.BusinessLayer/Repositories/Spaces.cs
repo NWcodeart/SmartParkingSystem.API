@@ -1,77 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SmartParkingSystem.ApplicationLayer;
-using SmartParkingSystem.DataBase.model;
-using SmartParkingSystem.Entity;
+﻿using SmartParkingSystem.DataBase.model;
 using System;
+using SmartParkingSystem.ApplicationLayer.IRepositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SmartParkingSystem.Entity;
 
-namespace SmartParkingSystem.BusinessLayer
+namespace SmartParkingSystem.BusinessLayer.Repositories
 {
-    public class Parking : IParking
+    public class Spaces : ISpaces
     {
         private readonly ParkingContext _parkingContext;
 
         private readonly DbContextOptions<ParkingContext> _options;
-        public Parking(ParkingContext parkingContext, DbContextOptions<ParkingContext> options)
+        public Spaces(ParkingContext parkingContext, DbContextOptions<ParkingContext> options)
         {
             _parkingContext = parkingContext;
             _options = options;
-        }
-
-        public void AddCompanyParking(AddParkingDto parking)
-        {
-            using (_parkingContext)
-            {
-                var newParking = new CompanyParking()
-                {
-                    Name = parking.Name
-                };
-
-                _parkingContext.companyParkings.Add(newParking);
-                _parkingContext.SaveChanges();
-            }
-        }
-
-        public void AddParkingSpace(AddSpaceDto space)
-        {
-            using (_parkingContext)
-            {
-                var newSpace = new ParkingSpace()
-                {
-                    ParkingNumber = space.ParkingNumber,
-                    ParkingId = space.ParkingId
-                };
-
-                _parkingContext.parkingSpaces.Add(newSpace);
-                _parkingContext.SaveChanges();
-            }
-        }
-            
-        public ParkingDto GetCompanyParking(int Id)
-        {
-            using(var db = new ParkingContext(_options))
-            {
-                var request = new ParkingDto();
-
-                request = db.companyParkings.Select(x => new ParkingDto
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-
-                }).Single(p => p.Id == Id);
-
-                if (request != null)
-                {
-                    return request;
-                }
-                else
-                {
-                    return null;
-                }
-            }
         }
 
         public int GetIdParkingSpace(string SpaceNumber)
@@ -149,5 +96,11 @@ namespace SmartParkingSystem.BusinessLayer
                 db.SaveChanges();
             }
         }
+
+        public void DeleteSpaceParking(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

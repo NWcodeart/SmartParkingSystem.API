@@ -42,7 +42,8 @@ namespace SmartParkingSystem.BusinessLayer
                 var newSpace = new ParkingSpace()
                 {
                     ParkingNumber = space.ParkingNumber,
-                    ParkingId = space.ParkingId
+                    ParkingId = space.ParkingId,
+                    IsVacant = space.IsVacant
                 };
 
                 _parkingContext.parkingSpaces.Add(newSpace);
@@ -70,7 +71,14 @@ namespace SmartParkingSystem.BusinessLayer
                 {
                     Id = x.Id,
                     Name = x.Name,
-
+                    ParkingList = x.ParkingList.Select( p => new SpacesDto
+                    {
+                        Id = p.Id,
+                        ParkingNumber = p.ParkingNumber,
+                        ParkingId = p.ParkingId,
+                        IsVacant = p.IsVacant,
+                        CarNumber = p.CarNumber
+                    }).ToList()
                 }).ToList();
 
                 if(ParkingList == null)

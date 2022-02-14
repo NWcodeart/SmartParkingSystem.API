@@ -19,4 +19,8 @@
     <ProjectReference Include="..\SmartParkingSystem.Entity\SmartParkingSystem.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CarPlateImage\" />
+  </ItemGroup>
+
 </Project>

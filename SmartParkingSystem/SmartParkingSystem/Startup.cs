@@ -9,10 +9,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SmartParkingSystem.ApplicationLayer;
+using SmartParkingSystem.ApplicationLayer.IRepositories;
 using SmartParkingSystem.BusinessLayer;
+using SmartParkingSystem.BusinessLayer.Repositories;
 using SmartParkingSystem.DataBase;
 using SmartParkingSystem.DataBase.model;
 using System;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -44,6 +47,7 @@ namespace SmartParkingSystem
 
             });
             services.AddScoped<IParking, Parking>();
+            services.AddScoped<ISpaces, Spaces>();
             services.AddHttpContextAccessor();
         }
 
@@ -56,7 +60,6 @@ namespace SmartParkingSystem
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartParkingSystem v1"));
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();

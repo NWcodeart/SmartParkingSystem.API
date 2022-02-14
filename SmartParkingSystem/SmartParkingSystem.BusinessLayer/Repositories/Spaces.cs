@@ -7,18 +7,23 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SmartParkingSystem.Entity;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace SmartParkingSystem.BusinessLayer.Repositories
 {
     public class Spaces : ISpaces
     {
         private readonly ParkingContext _parkingContext;
+        public static IHostingEnvironment _environment;
 
         private readonly DbContextOptions<ParkingContext> _options;
-        public Spaces(ParkingContext parkingContext, DbContextOptions<ParkingContext> options)
+        public Spaces(ParkingContext parkingContext, DbContextOptions<ParkingContext> options, IHostingEnvironment environment)
         {
             _parkingContext = parkingContext;
             _options = options;
+            _environment = environment;
         }
 
         public int GetIdParkingSpace(string SpaceNumber)
@@ -34,7 +39,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
                     ParkingId = x.ParkingId,
                     IsVacant = x.IsVacant,
                     CarNumber = x.CarNumber
-                }).Single(s => s.ParkingNumber == SpaceNumber);
+                }).SingleOrDefault(s => s.ParkingNumber == SpaceNumber);
 
                 if (space != null)
                 {
@@ -73,17 +78,17 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             }
         }
 
-        public void InsertCarNumber(string CarNumber, int Id)
-        {
-            using (var db = new ParkingContext(_options))
-            {
-                var space = db.parkingSpaces.Single(s => s.Id == Id);
-                space.CarNumber = CarNumber;
-                space.IsVacant = false;
-                db.parkingSpaces.Update(space);
-                db.SaveChanges();
-            }
-        }
+        //public void InsertCarNumber(string CarNumber, int Id)
+        //{
+        //    using (var db = new ParkingContext(_options))
+        //    {
+        //        var space = db.parkingSpaces.Single(s => s.Id == Id);
+        //        space.CarNumber = CarNumber;
+        //        space.IsVacant = false;
+        //        db.parkingSpaces.Update(space);
+        //        db.SaveChanges();
+        //    }
+        //}
 
         public void VacantParkingSpace(int Id)
         {
@@ -99,8 +104,48 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
         public void DeleteSpaceParking(int Id)
         {
-            throw new NotImplementedException();
+            var Space = _parkingContext.parkingSpaces.Where(x => x.Id == Id).FirstOrDefault();
+
+            if (Space != null)
+            {
+                _parkingContext.parkingSpaces.Remove(Space);
+                _parkingContext.SaveChanges();
+            }
         }
 
+        public void CarPlateImageStore(IFormFile files)
+        {
+            var CurrentDirectory = Environment.CurrentDirectory;
+            if (files.Length > 0)
+            {
+                using (FileStream filestream = System.IO.File.Create(CurrentDirectory + "\\CarPlateImage\\" + files.FileName))
+                {
+                    files.CopyTo(filestream);
+                    filestream.Flush();
+                }
+            }
+        }
+
+        public void CarPlateImageRremove(IFormFile files)
+        {
+            File.Delete(Environment.CurrentDirectory + "\\CarPlateImage\\" + files.FileName);
+        }
+
+        public void OCR(IFormFile files )
+        {
+            String SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(files.FileName);
+            using (var db = new ParkingContext(_options))
+            {
+                var request = db.parkingSpaces.Single(x => x.ParkingNumber == SpaceNumber);
+
+                request.IsVacant = false;
+                request.CarNumber = "AA345";
+
+                db.parkingSpaces.Update(request);
+                db.SaveChanges();
+
+            }
+
+        }
     }
 }

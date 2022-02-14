@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.14" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SmartParkingSystem.DataBase\SmartParkingSystem.DataBase.csproj" />
     <ProjectReference Include="..\SmartParkingSystem.Entity\SmartParkingSystem.Entity.csproj" />
   </ItemGroup>

@@ -14,6 +14,7 @@ namespace SmartParkingSystem.DataBase.model
         public int Id { get; set; }
 
         [Required]
+        [Index(IsUnique = true)]
         public string ParkingNumber { get; set; }
 
         [Required]

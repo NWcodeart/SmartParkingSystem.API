@@ -53,7 +53,7 @@ namespace SmartParkingSystem.API.Controllers
                 return BadRequest("system model invalid");
             }
         }
-
+        //update parking space ststus to vacant by space number (which string)
         [HttpPut]
         [Route("VacantParkingSpace")]
         public ActionResult VacantParkingSpace(String parkingSpaceNumber)

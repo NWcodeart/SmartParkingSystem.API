@@ -1,3 +1,7 @@
+#!/usr/bin/python
+# -*- coding: latin-1 -*-
+
+
 import cv2
 import imutils
 import numpy as np

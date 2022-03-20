@@ -10,6 +10,8 @@ using SmartParkingSystem.Entity;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
 
 namespace SmartParkingSystem.BusinessLayer.Repositories
 {
@@ -133,19 +135,13 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
         public void OCR(IFormFile files )
         {
-            String SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(files.FileName);
-            using (var db = new ParkingContext(_options))
-            {
-                var request = db.parkingSpaces.Single(x => x.ParkingNumber == SpaceNumber);
+            var engine = Python.CreateEngine();
+            var scope =  engine.CreateScope();
 
-                request.IsVacant = false;
-                request.CarNumber = "AA345";
+            var CurrentDirectory = Environment.CurrentDirectory;
 
-                db.parkingSpaces.Update(request);
-                db.SaveChanges();
-
-            }
-
+            ScriptSource source = engine.CreateScriptSourceFromFile(CurrentDirectory + "\\OCR\\saudilp.py");
+            object result = source.Execute(scope);
         }
     }
 }

@@ -93,18 +93,18 @@ namespace SmartParkingSystem.API.Controllers
         public ActionResult UploudeCarPlateImage(IFormFile image)
         {
             String SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
-            if (_spaces.GetIdParkingSpace(SpaceNumber) == 0)
-            {
-                return BadRequest("space number undefiend");
-            }
-            else
-            {
+            //if (_spaces.GetIdParkingSpace(SpaceNumber) == 0)
+            //{
+            //    return BadRequest("space number undefiend");
+            //}
+            //else
+            //{
                 _spaces.CarPlateImageStore(image);
                 _spaces.OCR(image);
                 _spaces.CarPlateImageRremove(image);
 
                 return Ok("Space CarNumber Updated successfully");
-            }
+            //}
 
 
         }

@@ -12,6 +12,8 @@ using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
+using Python.Runtime;
+
 
 namespace SmartParkingSystem.BusinessLayer.Repositories
 {
@@ -19,6 +21,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
     {
         private readonly ParkingContext _parkingContext;
         public static IHostingEnvironment _environment;
+        PyScope _scope; 
 
         private readonly DbContextOptions<ParkingContext> _options;
         public Spaces(ParkingContext parkingContext, DbContextOptions<ParkingContext> options, IHostingEnvironment environment)
@@ -135,15 +138,30 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
         public void OCR(IFormFile files )
         {
-            var CurrentDirectory = Environment.CurrentDirectory;
+            PythonEngine.Initialize();
+            _scope = Py.CreateScope();
 
-            var engine = Python.CreateEngine();
-            var scope =  engine.CreateScope();
-            ScriptSource source = engine.CreateScriptSourceFromFile(CurrentDirectory + "\\Archive\\saudilp.py");
-            object result = source.Execute(scope);
+            using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
+            {
+                try
+                {
+                    // import your script into the process
+                    dynamic cv2 = Py.Import("cv2");
+                    dynamic numpy = Py.Import("numpy");
+                    dynamic imutils = Py.Import("imutils");
+                    dynamic pytesseract = Py.Import("pytesseract");
+                    dynamic easyocr = Py.Import("easyocr");
 
-            var x = result.ToString();
-            
+                    _scope.Exec("print('success')"); 
+
+                }
+                catch (PythonException error)
+                {
+                    Console.WriteLine("Error occured: ", error.Message);
+                }
+
+            }
+
         }
     }
 }

@@ -13,4 +13,10 @@
     <ProjectReference Include="..\SmartParkingSystem.ApplicationLayer\SmartParkingSystem.ApplicationLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Python.Runtime">
+      <HintPath>C:\Users\nwara\.nuget\packages\pythonnet_netstandard_py39_win\2.5.2\lib\netstandard2.0\Python.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

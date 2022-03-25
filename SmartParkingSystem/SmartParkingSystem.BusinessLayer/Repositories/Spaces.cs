@@ -135,13 +135,15 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
         public void OCR(IFormFile files )
         {
-            var engine = Python.CreateEngine();
-            var scope =  engine.CreateScope();
-
             var CurrentDirectory = Environment.CurrentDirectory;
 
-            ScriptSource source = engine.CreateScriptSourceFromFile(CurrentDirectory + "\\OCR\\saudilp.py");
+            var engine = Python.CreateEngine();
+            var scope =  engine.CreateScope();
+            ScriptSource source = engine.CreateScriptSourceFromFile(CurrentDirectory + "\\Archive\\saudilp.py");
             object result = source.Execute(scope);
+
+            var x = result.ToString();
+            
         }
     }
 }

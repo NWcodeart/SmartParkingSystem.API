@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31321.278
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartParkingSystem.API", "SmartParkingSystem\SmartParkingSystem.API.csproj", "{BA5D5C26-DF3D-45DA-8DDD-A4DB7C9AA35B}"
 EndProject
@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartParkingSystem.Applicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartParkingSystem.BusinessLayer", "SmartParkingSystem.BusinessLayer\SmartParkingSystem.BusinessLayer.csproj", "{FB61AA7F-E682-418D-B6DF-A0B5B4019377}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartParkingSystem.Entity", "SmartParkingSystem.Entity\SmartParkingSystem.Entity.csproj", "{99DFB0B9-8E3B-44CD-96B6-BCF14D4F8E4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartParkingSystem.Entity", "SmartParkingSystem.Entity\SmartParkingSystem.Entity.csproj", "{99DFB0B9-8E3B-44CD-96B6-BCF14D4F8E4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartParkingSystem.DataBase", "SmartParkingSystem.DataBase\SmartParkingSystem.DataBase.csproj", "{A8EC2427-828F-4109-8EB5-A99D3E6C6A6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartParkingSystem.DataBase", "SmartParkingSystem.DataBase\SmartParkingSystem.DataBase.csproj", "{A8EC2427-828F-4109-8EB5-A99D3E6C6A6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

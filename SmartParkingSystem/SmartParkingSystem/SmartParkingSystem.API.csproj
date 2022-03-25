@@ -5,13 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="OCR\.idea\inspectionProfiles\profiles_settings.xml" />
-    <Content Include="OCR\.idea\misc.xml" />
-    <Content Include="OCR\.idea\modules.xml" />
-    <Content Include="OCR\.idea\workspace.xml" />
-    <Content Include="OCR\.vs\ProjectSettings.json" />
-    <Content Include="OCR\.vs\PythonSettings.json" />
-    <Content Include="OCR\.vs\VSWorkspaceState.json" />
+    <Content Include="Archive\.idea\inspectionProfiles\profiles_settings.xml" />
+    <Content Include="Archive\.idea\misc.xml" />
+    <Content Include="Archive\.idea\modules.xml" />
+    <Content Include="Archive\.idea\workspace.xml" />
+    <Content Include="Archive\.vs\ProjectSettings.json" />
+    <Content Include="Archive\.vs\PythonSettings.json" />
+    <Content Include="Archive\.vs\VSWorkspaceState.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,14 +32,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Archive\.vs\Archive\v16\" />
+    <Folder Include="Archive\GP_demoenv\Include\" />
     <Folder Include="CarPlateImage\" />
-    <Folder Include="OCR\.vs\Archive\v16\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="OCR\.idea\.gitignore" />
-    <None Include="OCR\.idea\Archive.iml" />
-    <None Include="OCR\.vs\slnx.sqlite" />
+    <None Include="Archive\.idea\.gitignore" />
+    <None Include="Archive\.idea\Archive.iml" />
+    <None Include="Archive\.vs\Archive\v17\workspaceFileList.bin" />
+    <None Include="Archive\.vs\slnx.sqlite" />
   </ItemGroup>
 
 </Project>

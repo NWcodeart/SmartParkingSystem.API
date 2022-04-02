@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Hosting;
 using IronPython.Hosting;
 using Microsoft.Scripting.Hosting;
 using Python.Runtime;
-
+using System.Diagnostics;
 
 namespace SmartParkingSystem.BusinessLayer.Repositories
 {
@@ -123,7 +123,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             var CurrentDirectory = Environment.CurrentDirectory;
             if (files.Length > 0)
             {
-                using (FileStream filestream = System.IO.File.Create(CurrentDirectory + "\\CarPlateImage\\" + files.FileName))
+                using (FileStream filestream = System.IO.File.Create(CurrentDirectory + "\\OCR\\" + files.FileName))
                 {
                     files.CopyTo(filestream);
                     filestream.Flush();
@@ -133,7 +133,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
         public void CarPlateImageRremove(IFormFile files)
         {
-            File.Delete(Environment.CurrentDirectory + "\\CarPlateImage\\" + files.FileName);
+            File.Delete(Environment.CurrentDirectory + "\\OCR\\" + files.FileName);
         }
 
         public void OCR(IFormFile files )
@@ -152,7 +152,8 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
                     dynamic pytesseract = Py.Import("pytesseract");
                     dynamic easyocr = Py.Import("easyocr");
 
-                    _scope.Exec("print('success')"); 
+                    _scope.Exec(File.ReadAllText(Environment.CurrentDirectory + "\\OCR\\saudilp.py"));
+                    //PyObject p = PythonEngine.Compile("", Environment.CurrentDirectory + "\\Archive\\saudilp.py", RunFlagType.File);
 
                 }
                 catch (PythonException error)
@@ -161,6 +162,36 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
                 }
 
             }
+
+
+            // 1) create process info 
+            ProcessStartInfo start = new ProcessStartInfo();
+
+            //cmd is full path to python.exe
+            start.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python39_64\python.exe";
+
+
+            // 2) Provide script and arguments
+            string arg = Environment.CurrentDirectory + "\\OCR\\" + files.FileName;
+            string pathScript = Environment.CurrentDirectory + "\\OCR\\saudilp.py";
+            start.Arguments = $"\"{pathScript}\"\"{arg}\""; //args is path to .py file and any cmd line args
+
+            // 3) process configuration
+            start.UseShellExecute = false;
+            start.CreateNoWindow = true; //do not create window 
+            start.RedirectStandardOutput = true; //recive print lines from the script
+            start.RedirectStandardError = true;
+
+            // 4) Execute process and get output
+            string result = "";
+            string errors = "";
+
+            using (Process process = Process.Start(start))
+            {
+                result = process.StandardOutput.ReadToEnd();
+                errors = process.StandardError.ReadToEnd(); 
+            }
+
 
         }
     }

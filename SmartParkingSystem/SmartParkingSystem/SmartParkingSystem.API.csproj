@@ -6,16 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Archive\.idea\inspectionProfiles\profiles_settings.xml" />
-    <Content Include="Archive\.idea\misc.xml" />
-    <Content Include="Archive\.idea\modules.xml" />
-    <Content Include="Archive\.idea\workspace.xml" />
-    <Content Include="Archive\.vs\ProjectSettings.json" />
-    <Content Include="Archive\.vs\PythonSettings.json" />
-    <Content Include="Archive\.vs\VSWorkspaceState.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="IronPython" Version="2.7.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.13">
       <PrivateAssets>all</PrivateAssets>
@@ -31,19 +21,6 @@
     <ProjectReference Include="..\SmartParkingSystem.BusinessLayer\SmartParkingSystem.BusinessLayer.csproj" />
     <ProjectReference Include="..\SmartParkingSystem.DataBase\SmartParkingSystem.DataBase.csproj" />
     <ProjectReference Include="..\SmartParkingSystem.Entity\SmartParkingSystem.Entity.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Archive\.vs\Archive\v16\" />
-    <Folder Include="Archive\GP_demoenv\Include\" />
-    <Folder Include="CarPlateImage\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Archive\.idea\.gitignore" />
-    <None Include="Archive\.idea\Archive.iml" />
-    <None Include="Archive\.vs\Archive\v17\workspaceFileList.bin" />
-    <None Include="Archive\.vs\slnx.sqlite" />
   </ItemGroup>
 
   <ItemGroup>

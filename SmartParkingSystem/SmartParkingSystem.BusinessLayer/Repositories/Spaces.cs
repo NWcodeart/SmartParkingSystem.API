@@ -21,7 +21,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
     {
         private readonly ParkingContext _parkingContext;
         public static IHostingEnvironment _environment;
-        PyScope _scope; 
+        IProcess_StartInfo processInfo;
 
         private readonly DbContextOptions<ParkingContext> _options;
         public Spaces(ParkingContext parkingContext, DbContextOptions<ParkingContext> options, IHostingEnvironment environment)
@@ -123,7 +123,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             var CurrentDirectory = Environment.CurrentDirectory;
             if (files.Length > 0)
             {
-                using (FileStream filestream = System.IO.File.Create(CurrentDirectory + "\\OCR\\" + files.FileName))
+                using (FileStream filestream = System.IO.File.Create(CurrentDirectory + "\\VPR\\" + files.FileName))
                 {
                     files.CopyTo(filestream);
                     filestream.Flush();
@@ -133,64 +133,12 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
         public void CarPlateImageRremove(IFormFile files)
         {
-            File.Delete(Environment.CurrentDirectory + "\\OCR\\" + files.FileName);
+            File.Delete(Environment.CurrentDirectory + "\\VPR\\" + files.FileName);
         }
 
         public void OCR(IFormFile files )
         {
-            PythonEngine.Initialize();
-            _scope = Py.CreateScope();
-
-            using (Py.GIL()) //Initialize the Python engine and acquire the interpreter lock
-            {
-                try
-                {
-                    // import your script into the process
-                    dynamic cv2 = Py.Import("cv2");
-                    dynamic numpy = Py.Import("numpy");
-                    dynamic imutils = Py.Import("imutils");
-                    dynamic pytesseract = Py.Import("pytesseract");
-                    dynamic easyocr = Py.Import("easyocr");
-
-                    _scope.Exec(File.ReadAllText(Environment.CurrentDirectory + "\\OCR\\saudilp.py"));
-                    //PyObject p = PythonEngine.Compile("", Environment.CurrentDirectory + "\\Archive\\saudilp.py", RunFlagType.File);
-
-                }
-                catch (PythonException error)
-                {
-                    Console.WriteLine("Error occured: ", error.Message);
-                }
-
-            }
-
-
-            // 1) create process info 
-            ProcessStartInfo start = new ProcessStartInfo();
-
-            //cmd is full path to python.exe
-            start.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python39_64\python.exe";
-
-
-            // 2) Provide script and arguments
-            string arg = Environment.CurrentDirectory + "\\OCR\\" + files.FileName;
-            string pathScript = Environment.CurrentDirectory + "\\OCR\\saudilp.py";
-            start.Arguments = $"\"{pathScript}\"\"{arg}\""; //args is path to .py file and any cmd line args
-
-            // 3) process configuration
-            start.UseShellExecute = false;
-            start.CreateNoWindow = true; //do not create window 
-            start.RedirectStandardOutput = true; //recive print lines from the script
-            start.RedirectStandardError = true;
-
-            // 4) Execute process and get output
-            string result = "";
-            string errors = "";
-
-            using (Process process = Process.Start(start))
-            {
-                result = process.StandardOutput.ReadToEnd();
-                errors = process.StandardError.ReadToEnd(); 
-            }
+            string CarPlateNumber = processInfo.ExecuteOCR(Environment.CurrentDirectory + "\\VPR\\" + files.FileName);
 
 
         }

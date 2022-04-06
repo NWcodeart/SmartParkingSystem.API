@@ -80,7 +80,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
         }
 
         public void InsertCarNumber(string CarNumber, int Id)
-        {
+            {
             using (var db = new ParkingContext(_options))
             {
                 var space = db.parkingSpaces.Single(s => s.Id == Id);
@@ -163,6 +163,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
             return result;
         }
+
         public string rstrip(string text, string RemovedChar = " ")
         {
             string result = "";

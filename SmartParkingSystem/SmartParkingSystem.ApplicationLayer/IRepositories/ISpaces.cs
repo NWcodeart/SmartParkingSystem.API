@@ -35,6 +35,7 @@ namespace SmartParkingSystem.ApplicationLayer.IRepositories
         // this function will run the python script saudilp.py in folder VPR
         public string ExecuteOCR(string imagePath);
 
+        public string rstrip(string text, string RemovedChar = " ");
         //Update database of the car plate number 
         public void OCR(IFormFile files);
     }

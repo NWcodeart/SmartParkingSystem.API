@@ -63,8 +63,8 @@ namespace SmartParkingSystem.API.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("GetCompanyParkingById")]
+        [HttpGet]//("{id:int}")
+        [Route("GetCompanyParkingById/{Id}")]
         public IActionResult GetAllCompanyParkingById(int Id)
         {
             if (ModelState.IsValid)

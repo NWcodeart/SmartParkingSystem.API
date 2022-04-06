@@ -1,19 +1,13 @@
-﻿using SmartParkingSystem.DataBase.model;
-using System;
-using SmartParkingSystem.ApplicationLayer.IRepositories;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using SmartParkingSystem.Entity;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using IronPython.Hosting;
-using Microsoft.Scripting.Hosting;
-using Python.Runtime;
+using Microsoft.EntityFrameworkCore;
+using SmartParkingSystem.ApplicationLayer.IRepositories;
+using SmartParkingSystem.DataBase.model;
+using SmartParkingSystem.Entity;
+using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 
 namespace SmartParkingSystem.BusinessLayer.Repositories
 {
@@ -21,10 +15,12 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
     {
         private readonly ParkingContext _parkingContext;
         public static IHostingEnvironment _environment;
-        IProcess_StartInfo processInfo;
 
         private readonly DbContextOptions<ParkingContext> _options;
-        public Spaces(ParkingContext parkingContext, DbContextOptions<ParkingContext> options, IHostingEnvironment environment)
+        public Spaces(
+            ParkingContext parkingContext,
+            DbContextOptions<ParkingContext> options,
+            IHostingEnvironment environment)
         {
             _parkingContext = parkingContext;
             _options = options;
@@ -83,17 +79,17 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             }
         }
 
-        //public void InsertCarNumber(string CarNumber, int Id)
-        //{
-        //    using (var db = new ParkingContext(_options))
-        //    {
-        //        var space = db.parkingSpaces.Single(s => s.Id == Id);
-        //        space.CarNumber = CarNumber;
-        //        space.IsVacant = false;
-        //        db.parkingSpaces.Update(space);
-        //        db.SaveChanges();
-        //    }
-        //}
+        public void InsertCarNumber(string CarNumber, int Id)
+        {
+            using (var db = new ParkingContext(_options))
+            {
+                var space = db.parkingSpaces.Single(s => s.Id == Id);
+                space.CarNumber = CarNumber;
+                space.IsVacant = false;
+                db.parkingSpaces.Update(space);
+                db.SaveChanges();
+            }
+        }
 
         public void VacantParkingSpace(int Id)
         {
@@ -135,12 +131,72 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
         {
             File.Delete(Environment.CurrentDirectory + "\\VPR\\" + files.FileName);
         }
-
-        public void OCR(IFormFile files )
+        public string ExecuteOCR(string imagePath)
         {
-            string CarPlateNumber = processInfo.ExecuteOCR(Environment.CurrentDirectory + "\\VPR\\" + files.FileName);
+            // 1) create process info
+            ProcessStartInfo start = new ProcessStartInfo();
+
+            //cmd is full path to python.exe
+            start.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python39_64\python.exe";
 
 
+            // 2) Provide script and arguments
+            string arg = imagePath;
+            string pathScript = @"D:\graduation project\smart parking system\SmartParkingSystem\SmartParkingSystem\VPR\Saudilp.py";
+            start.Arguments = $"\"{pathScript}\" \"{arg}\""; //args is path to .py file and any cmd line args
+
+            // 3) process configuration
+            start.UseShellExecute = false;
+            start.CreateNoWindow = true; //do not create window 
+            start.RedirectStandardOutput = true; //recive print lines from the script
+            start.RedirectStandardError = true;
+
+            // 4) Execute process and get output
+            string result = "";
+            string errors = "";
+
+            using (Process process = Process.Start(start))
+            {
+                errors = process.StandardError.ReadToEnd();
+                result = process.StandardOutput.ReadToEnd();
+            }
+
+            return result;
+        }
+        public string rstrip(string text, string RemovedChar = " ")
+        {
+            string result = "";
+            int index = -1;
+            if (string.IsNullOrEmpty(text)) { return result; }
+            else
+            {
+                for (int textLength = text.Length - 1; textLength >= 0; textLength--)
+                {
+                    if (RemovedChar.Contains(text[textLength].ToString()))
+                    {
+                        index = textLength;
+                    }
+                    else
+                    {
+                        if (index >= 0)
+                        {
+                            result = text.Remove(index);
+                            break;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        public void OCR(IFormFile image )
+        {
+            string imagePath = Environment.CurrentDirectory + "\\VPR\\" + image.FileName;
+            string CarPlateNumber = ExecuteOCR(imagePath);
+            string SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
+            int SpaceId = GetIdParkingSpace(SpaceNumber);
+            CarPlateNumber = rstrip(CarPlateNumber, "\r\n");
+            InsertCarNumber(CarPlateNumber, SpaceId);
         }
     }
 }

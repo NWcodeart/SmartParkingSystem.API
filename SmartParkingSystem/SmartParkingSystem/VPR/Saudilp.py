@@ -104,7 +104,7 @@ def ocr_processing(threshold, img, gray):
     else:
         final_plate = final_plate.lstrip('ABCDEFGHIJKLMNOPQRSTWXYZabcdefghijklmnopqrstwxyz')
         print(final_plate)
-        print(get_arabic_letter(final_plate))
+        #print(get_arabic_letter(final_plate))
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':

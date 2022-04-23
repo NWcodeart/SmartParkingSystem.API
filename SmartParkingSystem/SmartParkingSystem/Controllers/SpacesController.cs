@@ -19,14 +19,14 @@ namespace SmartParkingSystem.API.Controllers
             _spaces = spacesRepo;
         }
         [HttpGet]
-        [Route("GetParkingSpace")]
-        public ActionResult GetParkingSpace(String SpaceNumber)
+        [Route("GetParkingSpace/{SpaceNumber}/{ParkingId}")]
+        public ActionResult GetParkingSpace(String SpaceNumber , int ParkingId)
         {
             if (ModelState.IsValid)
             {
                 if (SpaceNumber != null)
                 {
-                    var Id = _spaces.GetIdParkingSpace(SpaceNumber);
+                    var Id = _spaces.GetIdParkingSpace(SpaceNumber, ParkingId);
                     if (Id == 0)
                     {
                         return BadRequest("parking space number incorrect");
@@ -56,12 +56,12 @@ namespace SmartParkingSystem.API.Controllers
         }
         //update parking space ststus to vacant by space number (which string)
         [HttpPut]
-        [Route("VacantParkingSpace")]
-        public ActionResult VacantParkingSpace(String parkingSpaceNumber)
+        [Route("VacantParkingSpace/{SpaceNumber}/{ParkingId}")]
+        public ActionResult VacantParkingSpace(String parkingSpaceNumber, int ParkingId)
         {
             if (ModelState.IsValid)
             {
-                var parkingId = _spaces.GetIdParkingSpace(parkingSpaceNumber);
+                var parkingId = _spaces.GetIdParkingSpace(parkingSpaceNumber, ParkingId);
                 if (parkingId != 0)
                 {
                     _spaces.VacantParkingSpace(parkingId);
@@ -90,21 +90,38 @@ namespace SmartParkingSystem.API.Controllers
             else { return BadRequest("model is invalid"); }
         }
         [HttpPost]
-        [Route("UploudeCarPlateImage")]
-        public ActionResult UploudeCarPlateImage(IFormFile image)
+        [Route("UploudeCarPlateImage/{ParkingId}")]
+        public ActionResult UploudeCarPlateImage(IFormFile image, int ParkingId)
         {
             String SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
-            if (_spaces.GetIdParkingSpace(SpaceNumber) == 0)
+            if (_spaces.GetIdParkingSpace(SpaceNumber, ParkingId) == 0)
             {
                 return BadRequest("space number undefiend");
             }
             else
             {
                 _spaces.CarPlateImageStore(image);
-                _spaces.OCR(image);
+                _spaces.OCR(image, ParkingId);
                 _spaces.CarPlateImageRremove(image);
 
                 return Ok("Space CarNumber Updated successfully");
+            }
+
+
+        }
+        [HttpGet]
+        [Route("CarFinder/{CarNumber}")]
+        public ActionResult CarFinder(string CarNumber)
+        {
+            string SpaceNumber = _spaces.FindCarSpace(CarNumber);
+
+            if(SpaceNumber == null)
+            {
+                return BadRequest("The car plate number is null");
+            }
+            else
+            {
+                return Ok(SpaceNumber);
             }
 
 

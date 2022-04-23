@@ -27,29 +27,37 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             _environment = environment;
         }
 
-        public int GetIdParkingSpace(string SpaceNumber)
+        public int GetIdParkingSpace(string SpaceNumber, int ParkingId)
         {
             using (var db = new ParkingContext(_options))
             {
-                var space = new SpacesDto();
+                
+                //var check = db.parkingSpaces.Select(x => x.Id).
+                //    Where(x => x.Equals( ParkingId));
+                //if (check.Equals(0))
+                //{
+                //    return 0;
+                //}
+                //else
+                //{
+                    var space = db.parkingSpaces.Select(x => new SpacesDto
+                    {
+                        Id = x.Id,
+                        ParkingNumber = x.ParkingNumber,
+                        ParkingId = x.ParkingId,
+                        IsVacant = x.IsVacant,
+                        CarNumber = x.CarNumber
+                    }).Where(s => s.ParkingId == ParkingId).FirstOrDefault(x => x.ParkingNumber == SpaceNumber);
 
-                space = db.parkingSpaces.Select(x => new SpacesDto
-                {
-                    Id = x.Id,
-                    ParkingNumber = x.ParkingNumber,
-                    ParkingId = x.ParkingId,
-                    IsVacant = x.IsVacant,
-                    CarNumber = x.CarNumber
-                }).SingleOrDefault(s => s.ParkingNumber == SpaceNumber);
-
-                if (space != null)
-                {
-                    return space.Id;
-                }
-                else
-                {
-                    return 0;
-                };
+                    if (space != null)
+                    {
+                        return space.Id;
+                    }
+                    else
+                    {
+                        return 0;
+                    };
+                //}
             }
         }
 
@@ -190,14 +198,30 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             return result;
         }
 
-        public void OCR(IFormFile image )
+        public void OCR(IFormFile image, int ParkingId)
         {
             string imagePath = Environment.CurrentDirectory + "\\VPR\\" + image.FileName;
             string CarPlateNumber = ExecuteOCR(imagePath);
             string SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(image.FileName);
-            int SpaceId = GetIdParkingSpace(SpaceNumber);
+            int SpaceId = GetIdParkingSpace(SpaceNumber, ParkingId);
             CarPlateNumber = rstrip(CarPlateNumber, "\r\n");
             InsertCarNumber(CarPlateNumber, SpaceId);
+        }
+
+        public string FindCarSpace(string carSpaceName)
+        {
+            if (string.IsNullOrEmpty(carSpaceName))
+            {
+                return null;
+            }
+            else
+            {
+                using (_parkingContext)
+                {
+                    var SpaceNumber = _parkingContext.parkingSpaces.FirstOrDefault(x => x.CarNumber == carSpaceName);
+                    return SpaceNumber.ParkingNumber;
+                }
+            }
         }
     }
 }

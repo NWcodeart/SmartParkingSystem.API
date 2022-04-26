@@ -111,13 +111,13 @@ namespace SmartParkingSystem.API.Controllers
         }
         [HttpGet]
         [Route("CarFinder/{CarNumber}/{parkingId}")]
-        public ActionResult CarFinder(string CarNumber, int ParkingId)
+        public ActionResult CarFinder(string CarNumber, int parkingId)
         {
-            string SpaceNumber = _spaces.FindCarSpace(CarNumber , ParkingId);
+            string SpaceNumber = _spaces.FindCarSpace(CarNumber , parkingId);
 
             if(SpaceNumber == null)
             {
-                return BadRequest("The car plate number is null");
+                return BadRequest("The car plate number isn't defiend ");
             }
             else
             {

@@ -218,16 +218,24 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             {
                 using (_parkingContext)
                 {
+                    try
+                    {
+                        var SpaceNumber = _parkingContext.parkingSpaces.Where(x => x.ParkingId == parkingId).FirstOrDefault(x => x.CarNumber == carSpaceName);
 
-                    var SpaceNumber = _parkingContext.parkingSpaces.Where(x => x.ParkingId == parkingId).FirstOrDefault(x => x.CarNumber == carSpaceName);
-                    if (SpaceNumber == null)
-                    {
-                        return null;
+                        if (SpaceNumber == null)
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            return SpaceNumber.ParkingNumber;
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        return SpaceNumber.ParkingNumber;
+                        return ex.Message;
                     }
+                        
                 }
             }
         }

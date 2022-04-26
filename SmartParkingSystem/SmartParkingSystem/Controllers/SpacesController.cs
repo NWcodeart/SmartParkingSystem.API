@@ -110,10 +110,10 @@ namespace SmartParkingSystem.API.Controllers
 
         }
         [HttpGet]
-        [Route("CarFinder/{CarNumber}")]
-        public ActionResult CarFinder(string CarNumber)
+        [Route("CarFinder/{CarNumber}/{parkingId}")]
+        public ActionResult CarFinder(string CarNumber, int ParkingId)
         {
-            string SpaceNumber = _spaces.FindCarSpace(CarNumber);
+            string SpaceNumber = _spaces.FindCarSpace(CarNumber , ParkingId);
 
             if(SpaceNumber == null)
             {

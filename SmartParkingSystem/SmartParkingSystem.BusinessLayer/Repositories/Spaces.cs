@@ -208,7 +208,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             InsertCarNumber(CarPlateNumber, SpaceId);
         }
 
-        public string FindCarSpace(string carSpaceName)
+        public string FindCarSpace(string carSpaceName, int parkingId)
         {
             if (string.IsNullOrEmpty(carSpaceName))
             {
@@ -219,7 +219,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
                 using (_parkingContext)
                 {
 
-                    var SpaceNumber = _parkingContext.parkingSpaces.FirstOrDefault(x => x.CarNumber == carSpaceName);
+                    var SpaceNumber = _parkingContext.parkingSpaces.Where(x => x.ParkingId == parkingId).FirstOrDefault(x => x.CarNumber == carSpaceName);
                     if (SpaceNumber == null)
                     {
                         return null;

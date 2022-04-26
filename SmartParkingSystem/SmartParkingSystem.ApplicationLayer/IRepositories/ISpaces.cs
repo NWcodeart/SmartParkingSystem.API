@@ -40,6 +40,6 @@ namespace SmartParkingSystem.ApplicationLayer.IRepositories
         public void OCR(IFormFile files, int ParkingId);
 
         // find car Space
-        public string FindCarSpace(string carSpaceName);
+        public string FindCarSpace(string carSpaceName , int parkingId);
     }
 }

@@ -57,11 +57,11 @@ namespace SmartParkingSystem.API.Controllers
         //update parking space ststus to vacant by space number (which string)
         [HttpPut]
         [Route("VacantParkingSpace/{SpaceNumber}/{ParkingId}")]
-        public ActionResult VacantParkingSpace(String parkingSpaceNumber, int ParkingId)
+        public ActionResult VacantParkingSpace(String SpaceNumber, int ParkingId)
         {
             if (ModelState.IsValid)
             {
-                var parkingId = _spaces.GetIdParkingSpace(parkingSpaceNumber, ParkingId);
+                var parkingId = _spaces.GetIdParkingSpace(SpaceNumber, ParkingId);
                 if (parkingId != 0)
                 {
                     _spaces.VacantParkingSpace(parkingId);

@@ -31,33 +31,23 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
         {
             using (var db = new ParkingContext(_options))
             {
-                
-                //var check = db.parkingSpaces.Select(x => x.Id).
-                //    Where(x => x.Equals( ParkingId));
-                //if (check.Equals(0))
-                //{
-                //    return 0;
-                //}
-                //else
-                //{
-                    var space = db.parkingSpaces.Select(x => new SpacesDto
-                    {
-                        Id = x.Id,
-                        ParkingNumber = x.ParkingNumber,
-                        ParkingId = x.ParkingId,
-                        IsVacant = x.IsVacant,
-                        CarNumber = x.CarNumber
-                    }).Where(s => s.ParkingId == ParkingId).FirstOrDefault(x => x.ParkingNumber == SpaceNumber);
+                var space = db.parkingSpaces.Select(x => new SpacesDto
+                {
+                    Id = x.Id,
+                    ParkingNumber = x.ParkingNumber,
+                    ParkingId = x.ParkingId,
+                    IsVacant = x.IsVacant,
+                    CarNumber = x.CarNumber
+                }).Where(s => s.ParkingId == ParkingId).FirstOrDefault(x => x.ParkingNumber == SpaceNumber);
 
-                    if (space != null)
-                    {
-                        return space.Id;
-                    }
-                    else
-                    {
-                        return 0;
-                    };
-                //}
+                if (space != null)
+                {
+                    return space.Id;
+                }
+                else
+                {
+                    return 0;
+                };
             }
         }
 
@@ -150,7 +140,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
 
             // 2) Provide script and arguments
             string arg = imagePath;
-            string pathScript = @"D:\graduation project\smart parking system\SmartParkingSystem\SmartParkingSystem\VPR\Saudilp.py";
+            string pathScript = Environment.CurrentDirectory + "\\VPR\\Saudilp.py";
             start.Arguments = $"\"{pathScript}\" \"{arg}\""; //args is path to .py file and any cmd line args
 
             // 3) process configuration

@@ -31,7 +31,6 @@ namespace SmartParkingSystem.ApplicationLayer.IRepositories
         //remove car plate image from CarPlateImage folder 
         public void CarPlateImageRremove(IFormFile files);
 
-
         // this function will run the python script saudilp.py in folder VPR
         public string ExecuteOCR(string imagePath);
         public string rstrip(string text, string RemovedChar = " ");

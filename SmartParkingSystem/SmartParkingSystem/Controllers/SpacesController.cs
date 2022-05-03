@@ -106,9 +106,8 @@ namespace SmartParkingSystem.API.Controllers
 
                 return Ok("Space CarNumber Updated successfully");
             }
-
-
         }
+
         [HttpGet]
         [Route("CarFinder/{CarNumber}/{parkingId}")]
         public ActionResult CarFinder(string CarNumber, int parkingId)

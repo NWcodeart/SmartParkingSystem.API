@@ -90,7 +90,7 @@ namespace SmartParkingSystem.API.Controllers
             else { return BadRequest("model is invalid"); }
         }
         [HttpPost]
-        [Route("UploudeCarPlateImage/{ParkingId}/image")]
+        [Route("UploudeCarPlateImage/{ParkingId}/{image}")]
         public ActionResult UploudeCarPlateImage(int ParkingId, IFormFile image)
         {
             String SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(image.FileName);

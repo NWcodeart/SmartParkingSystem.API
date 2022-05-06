@@ -134,7 +134,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             // 1) create process info
             ProcessStartInfo start = new ProcessStartInfo();
 
-            //cmd is full path to python.exe
+            //python cmd full path python.exe
             start.FileName = @"C:\Program Files (x86)\Microsoft Visual Studio\Shared\Python39_64\python.exe";
 
 
@@ -153,6 +153,7 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
             string result = "";
             string errors = "";
 
+            // take the result printed 
             using (Process process = Process.Start(start))
             {
                 errors = process.StandardError.ReadToEnd();

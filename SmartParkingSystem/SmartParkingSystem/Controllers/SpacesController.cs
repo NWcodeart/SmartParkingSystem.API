@@ -107,6 +107,20 @@ namespace SmartParkingSystem.API.Controllers
                 return Ok("Space CarNumber Updated successfully");
             }
         }
+        [HttpPost]
+        [Route("PostImageBase64/{ParkingId}/{image}")]
+        public ActionResult PostImageBase64(int ParkingId, string image)
+        {
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("PostImageOnley")]
+        public ActionResult PostImageOnley(IFormFile image)
+        {
+            if(image == null) { return BadRequest("image is null"); }
+            else { return Ok("image posted successfully"); }
+        }
 
         [HttpGet]
         [Route("CarFinder/{CarNumber}/{parkingId}")]

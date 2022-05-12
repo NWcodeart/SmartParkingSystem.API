@@ -74,6 +74,26 @@ namespace SmartParkingSystem.API.Controllers
                 return BadRequest("model is invalid");
             }
         }
+        //update parking space ststus to vacant by space number (which string)
+        [HttpPut]
+        [Route("UnVacantParkingSpace/{SpaceNumber}/{ParkingId}")]
+        public ActionResult UnVacantParkingSpace(String SpaceNumber, int ParkingId)
+        {
+            if (ModelState.IsValid)
+            {
+                var parkingId = _spaces.GetIdParkingSpace(SpaceNumber, ParkingId);
+                if (parkingId != 0)
+                {
+                    _spaces.unVacantParkingSpace(parkingId);
+                    return Ok("updated to unvacant successfully");
+                }
+                else { return BadRequest("parking space number undefine"); }
+            }
+            else
+            {
+                return BadRequest("model is invalid");
+            }
+        }
         [HttpDelete]
         [Route("DeleteSpaceParking")]
         public ActionResult DeleteSpaceParking(int Id)
@@ -90,7 +110,7 @@ namespace SmartParkingSystem.API.Controllers
             else { return BadRequest("model is invalid"); }
         }
         [HttpPost]
-        [Route("UploudeCarPlateImage/{ParkingId}/{image}")]
+        [Route("UploudeCarPlateImage/{ParkingId}")]
         public ActionResult UploudeCarPlateImage(int ParkingId, IFormFile image)
         {
             String SpaceNumber = System.IO.Path.GetFileNameWithoutExtension(image.FileName);

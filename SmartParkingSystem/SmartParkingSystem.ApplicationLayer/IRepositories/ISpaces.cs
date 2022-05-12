@@ -25,6 +25,9 @@ namespace SmartParkingSystem.ApplicationLayer.IRepositories
         //update state of parking to available and delete car number
         public void VacantParkingSpace(int Id);
 
+        //update state of parking to unavailable 
+        public void unVacantParkingSpace(int Id);
+
         //store car plate image in CarPlateImage folder 
         public void CarPlateImageStore(IFormFile files);
 

@@ -230,5 +230,16 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
                 }
             }
         }
+
+        public void unVacantParkingSpace(int Id)
+        {
+            using (var db = new ParkingContext(_options))
+            {
+                var space = db.parkingSpaces.Single(s => s.Id == Id);
+                space.IsVacant = false;
+                db.parkingSpaces.Update(space);
+                db.SaveChanges();
+            }
+        }
     }
 }

@@ -23,6 +23,10 @@
     <ProjectReference Include="..\SmartParkingSystem.DataBase\SmartParkingSystem.DataBase.csproj" />
     <ProjectReference Include="..\SmartParkingSystem.Entity\SmartParkingSystem.Entity.csproj" />
   </ItemGroup>
+	 
+	 <ItemGroup>
+		 <FrameworkReference Include="Microsoft.AspNetCore.App" />
+	 </ItemGroup>
 
   <ItemGroup>
     <Reference Include="Python.Runtime">

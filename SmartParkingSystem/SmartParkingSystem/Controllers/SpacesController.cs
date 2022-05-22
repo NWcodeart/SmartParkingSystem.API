@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SmartParkingSystem.Entity;
+using System.IO;
 
 namespace SmartParkingSystem.API.Controllers
 {
@@ -131,18 +132,24 @@ namespace SmartParkingSystem.API.Controllers
         }
         [HttpPost]
         [Route("PostImageBase64")]
-        public ActionResult PostImageBase64(ImageBase64 image)
+        public ActionResult PostImageBase64(ImageBase64 imageBase64)
         {
-            if (image == null) { return BadRequest("image is null"); }
-            else { return Ok("image posted successfully"); }
-        }
+            if (imageBase64 == null) { return BadRequest("image is null"); }
+            else {
 
-        [HttpPost]
-        [Route("PostImageOnley")]
-        public ActionResult PostImageOnley(System.Drawing.Imaging.ImageFormat image )
-        {
-            if(image == null) { return BadRequest("image is null"); }
-            else { return Ok("image posted successfully"); }
+                //decoding the image incoded in base64
+                byte[] bytes = Convert.FromBase64String(imageBase64.image);
+                MemoryStream stream = new MemoryStream(bytes);
+
+                String fileName = imageBase64.SpaceNumber + ".jpeg";
+                IFormFile image = new FormFile(stream, 0, bytes.Length, fileName, fileName);
+
+                //image process
+                _spaces.CarPlateImageStore(image);
+                _spaces.OCR(image, imageBase64.ParkingId);
+                _spaces.CarPlateImageRremove(image);
+                return Ok("image posted successfully"); 
+            }
         }
 
         [HttpGet]

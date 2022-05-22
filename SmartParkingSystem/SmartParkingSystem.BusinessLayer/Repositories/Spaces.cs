@@ -242,19 +242,5 @@ namespace SmartParkingSystem.BusinessLayer.Repositories
                 db.SaveChanges();
             }
         }
-
-        public IFormFile DecodImage(ImageBase64 image)
-        {
-            IFormFile imageFile;
-            string filePath = Environment.CurrentDirectory + "\\VPR\\" + image.SpaceNumber + ".jpeg";
-            File.WriteAllBytes(filePath, Convert.FromBase64String(image.image));
-
-            using (var stream = System.IO.File.OpenRead(filePath))
-            {
-                imageFile = new FormFile(stream, 0, stream.Length, null, Path.GetFileName(stream.Name));
-            }
-
-                return imageFile;
-        }
     }
 }

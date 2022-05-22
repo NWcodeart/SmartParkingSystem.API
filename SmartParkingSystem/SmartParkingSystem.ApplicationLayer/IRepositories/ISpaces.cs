@@ -43,5 +43,8 @@ namespace SmartParkingSystem.ApplicationLayer.IRepositories
 
         // find car Space
         public string FindCarSpace(string carSpaceName , int parkingId);
+
+        //decoding the image incoded in base64
+        public IFormFile DecodImage(ImageBase64 image);
     }
 }

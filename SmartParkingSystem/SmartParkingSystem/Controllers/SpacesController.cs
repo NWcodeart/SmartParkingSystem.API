@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartParkingSystem.ApplicationLayer.IRepositories;
 using System;
+using System.Drawing;
 using Python.Runtime;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SmartParkingSystem.Entity;
 
 namespace SmartParkingSystem.API.Controllers
 {
@@ -128,15 +130,16 @@ namespace SmartParkingSystem.API.Controllers
             }
         }
         [HttpPost]
-        [Route("PostImageBase64/{ParkingId}/{image}")]
-        public ActionResult PostImageBase64(int ParkingId, string image)
+        [Route("PostImageBase64")]
+        public ActionResult PostImageBase64(ImageBase64 image)
         {
-            return Ok();
+            if (image == null) { return BadRequest("image is null"); }
+            else { return Ok("image posted successfully"); }
         }
 
         [HttpPost]
         [Route("PostImageOnley")]
-        public ActionResult PostImageOnley(IFormFile image)
+        public ActionResult PostImageOnley(System.Drawing.Imaging.ImageFormat image )
         {
             if(image == null) { return BadRequest("image is null"); }
             else { return Ok("image posted successfully"); }

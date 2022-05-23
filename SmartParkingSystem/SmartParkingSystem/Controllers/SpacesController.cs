@@ -130,6 +130,7 @@ namespace SmartParkingSystem.API.Controllers
                 return Ok("Space CarNumber Updated successfully");
             }
         }
+
         [HttpPost]
         [Route("PostImageBase64")]
         public ActionResult PostImageBase64(ImageBase64 imageBase64)
@@ -137,7 +138,11 @@ namespace SmartParkingSystem.API.Controllers
             if (imageBase64 == null) { return BadRequest("image is null"); }
             else {
 
-                //decoding the image incoded in base64
+                //decoding the image incoded in base64  24
+                imageBase64.image = imageBase64.image.Replace("data:image/jpeg;base64,", String.Empty);
+                imageBase64.image = imageBase64.image.Replace("%2B", "+");
+                imageBase64.image = imageBase64.image.Replace("%2F", "/");
+                imageBase64.image = imageBase64.image.Replace("%3D", "=");
                 byte[] bytes = Convert.FromBase64String(imageBase64.image);
                 MemoryStream stream = new MemoryStream(bytes);
 
